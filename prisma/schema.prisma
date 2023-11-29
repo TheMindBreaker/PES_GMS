@@ -18,6 +18,20 @@ model company {
   gensets genset[]
 }
 
+model genModel {
+  id        Int    @id @unique @default(autoincrement())
+  name      String
+  manual    String
+  stop      String
+  auto      String
+  run       String
+  bat_low   Int
+  bat_high  Int
+  fuel_low  Int
+  fuel_high Int
+  gensets   genset[]
+}
+
 model user {
   id         Int      @id @default(autoincrement())
   email      String   @unique
@@ -30,259 +44,248 @@ model user {
 }
 
 model genset {
-  id        Int       @id @unique @default(autoincrement())
-  imei      String    @unique
-  hostid    String    @unique
-  name      String
-  status    Boolean   @default(false)
-  genset03  genset03?
-  genset01  genset01?
-  company   company?  @relation(fields: [companyId], references: [id])
-  companyId Int?
-}
-
-model genset01 {
-  paramId  Int     @id @default(autoincrement())
-  gensetId Int     @unique
-  genset   genset  @relation(fields: [gensetId], references: [id])
-  b0       Boolean @default(false)
-  b1       Boolean @default(false)
-  b2       Boolean @default(false)
-  b3       Boolean @default(false)
-  b4       Boolean @default(false)
-  b5       Boolean @default(false)
-  b6       Boolean @default(false)
-  b7       Boolean @default(false)
-  b8       Boolean @default(false)
-  b9       Boolean @default(false)
-  b10      Boolean @default(false)
-  b11      Boolean @default(false)
-  b12      Boolean @default(false)
-  b13      Boolean @default(false)
-  b14      Boolean @default(false)
-  b15      Boolean @default(false)
-  b16      Boolean @default(false)
-  b17      Boolean @default(false)
-  b18      Boolean @default(false)
-  b19      Boolean @default(false)
-  b20      Boolean @default(false)
-  b21      Boolean @default(false)
-  b22      Boolean @default(false)
-  b23      Boolean @default(false)
-  b24      Boolean @default(false)
-  b25      Boolean @default(false)
-  b26      Boolean @default(false)
-  b27      Boolean @default(false)
-  b28      Boolean @default(false)
-  b29      Boolean @default(false)
-  b30      Boolean @default(false)
-  b31      Boolean @default(false)
-  b32      Boolean @default(false)
-  b33      Boolean @default(false)
-  b34      Boolean @default(false)
-  b35      Boolean @default(false)
-  b36      Boolean @default(false)
-  b37      Boolean @default(false)
-  b38      Boolean @default(false)
-  b39      Boolean @default(false)
-  b40      Boolean @default(false)
-  b41      Boolean @default(false)
-  b42      Boolean @default(false)
-  b43      Boolean @default(false)
-  b44      Boolean @default(false)
-  b45      Boolean @default(false)
-  b46      Boolean @default(false)
-  b47      Boolean @default(false)
-  b48      Boolean @default(false)
-  b49      Boolean @default(false)
-  b50      Boolean @default(false)
-  b51      Boolean @default(false)
-  b52      Boolean @default(false)
-  b53      Boolean @default(false)
-  b54      Boolean @default(false)
-  b55      Boolean @default(false)
-  b56      Boolean @default(false)
-  b57      Boolean @default(false)
-  b58      Boolean @default(false)
-  b59      Boolean @default(false)
-  b60      Boolean @default(false)
-  b61      Boolean @default(false)
-  b62      Boolean @default(false)
-  b63      Boolean @default(false)
-  b64      Boolean @default(false)
-  b65      Boolean @default(false)
-  b66      Boolean @default(false)
-  b67      Boolean @default(false)
-  b68      Boolean @default(false)
-  b69      Boolean @default(false)
-  b70      Boolean @default(false)
-  b71      Boolean @default(false)
-  b72      Boolean @default(false)
-  b73      Boolean @default(false)
-  b74      Boolean @default(false)
-  b75      Boolean @default(false)
-  b76      Boolean @default(false)
-  b77      Boolean @default(false)
-  b78      Boolean @default(false)
-  b79      Boolean @default(false)
-  b80      Boolean @default(false)
-  b81      Boolean @default(false)
-  b82      Boolean @default(false)
-  b83      Boolean @default(false)
-  b84      Boolean @default(false)
-  b85      Boolean @default(false)
-  b86      Boolean @default(false)
-  b87      Boolean @default(false)
-  b88      Boolean @default(false)
-  b89      Boolean @default(false)
-  b90      Boolean @default(false)
-  b91      Boolean @default(false)
-  b92      Boolean @default(false)
-  b93      Boolean @default(false)
-  b94      Boolean @default(false)
-  b95      Boolean @default(false)
-  b96      Boolean @default(false)
-  b97      Boolean @default(false)
-  b98      Boolean @default(false)
-  b99      Boolean @default(false)
-  b100     Boolean @default(false)
-  b101     Boolean @default(false)
-  b102     Boolean @default(false)
-  b103     Boolean @default(false)
-  b104     Boolean @default(false)
-  b105     Boolean @default(false)
-  b106     Boolean @default(false)
-  b107     Boolean @default(false)
-  b108     Boolean @default(false)
-  b109     Boolean @default(false)
-  b110     Boolean @default(false)
-  b111     Boolean @default(false)
-  b112     Boolean @default(false)
-  b113     Boolean @default(false)
-  b114     Boolean @default(false)
-  b115     Boolean @default(false)
-  b116     Boolean @default(false)
-}
-
-model genset03 {
-  paramId  Int    @id @default(autoincrement())
-  gensetId Int    @unique
-  genset   genset @relation(fields: [gensetId], references: [id])
-  p0       Int    @default(0) @db.Int
-  p1       Int    @default(0) @db.Int
-  p2       Int    @default(0) @db.Int
-  p3       Int    @default(0) @db.Int
-  p4       Int    @default(0) @db.Int
-  p5       Int    @default(0) @db.Int
-  p6       Int    @default(0) @db.Int
-  p7       Int    @default(0) @db.Int
-  p8       Int    @default(0) @db.Int
-  p9       Int    @default(0) @db.Int
-  p10      Int    @default(0) @db.Int
-  p11      Int    @default(0) @db.Int
-  p12      Int    @default(0) @db.Int
-  p13      Int    @default(0) @db.Int
-  p14      Int    @default(0) @db.Int
-  p15      Int    @default(0) @db.Int
-  p16      Int    @default(0) @db.Int
-  p17      Int    @default(0) @db.Int
-  p18      Int    @default(0) @db.Int
-  p19      Int    @default(0) @db.Int
-  p20      Int    @default(0) @db.Int
-  p21      Int    @default(0) @db.Int
-  p22      Int    @default(0) @db.Int
-  p23      Int    @default(0) @db.Int
-  p24      Int    @default(0) @db.Int
-  p25      Int    @default(0) @db.Int
-  p26      Int    @default(0) @db.Int
-  p27      Int    @default(0) @db.Int
-  p28      Int    @default(0) @db.Int
-  p29      Int    @default(0) @db.Int
-  p30      Int    @default(0) @db.Int
-  p31      Int    @default(0) @db.Int
-  p32      Int    @default(0) @db.Int
-  p33      Int    @default(0) @db.Int
-  p34      Int    @default(0) @db.Int
-  p35      Int    @default(0) @db.Int
-  p36      Int    @default(0) @db.Int
-  p37      Int    @default(0) @db.Int
-  p38      Int    @default(0) @db.Int
-  p39      Int    @default(0) @db.Int
-  p40      Int    @default(0) @db.Int
-  p41      Int    @default(0) @db.Int
-  p42      Int    @default(0) @db.Int
-  p43      Int    @default(0) @db.Int
-  p44      Int    @default(0) @db.Int
-  p45      Int    @default(0) @db.Int
-  p46      Int    @default(0) @db.Int
-  p47      Int    @default(0) @db.Int
-  p48      Int    @default(0) @db.Int
-  p49      Int    @default(0) @db.Int
-  p50      Int    @default(0) @db.Int
-  p51      Int    @default(0) @db.Int
-  p52      Int    @default(0) @db.Int
-  p53      Int    @default(0) @db.Int
-  p54      Int    @default(0) @db.Int
-  p55      Int    @default(0) @db.Int
-  p56      Int    @default(0) @db.Int
-  p57      Int    @default(0) @db.Int
-  p58      Int    @default(0) @db.Int
-  p59      Int    @default(0) @db.Int
-  p60      Int    @default(0) @db.Int
-  p61      Int    @default(0) @db.Int
-  p62      Int    @default(0) @db.Int
-  p63      Int    @default(0) @db.Int
-  p64      Int    @default(0) @db.Int
-  p65      Int    @default(0) @db.Int
-  p66      Int    @default(0) @db.Int
-  p67      Int    @default(0) @db.Int
-  p68      Int    @default(0) @db.Int
-  p69      Int    @default(0) @db.Int
-  p70      Int    @default(0) @db.Int
-  p71      Int    @default(0)
-  p72      Int    @default(0)
-  p73      Int    @default(0)
-  p74      Int    @default(0)
-  p75      Int    @default(0)
-  p76      Int    @default(0)
-  p77      Int    @default(0)
-  p78      Int    @default(0)
-  p79      Int    @default(0)
-  p80      Int    @default(0)
-  p81      Int    @default(0)
-  p82      Int    @default(0)
-  p83      Int    @default(0)
-  p84      Int    @default(0)
-  p85      Int    @default(0)
-  p86      Int    @default(0)
-  p87      Int    @default(0)
-  p88      Int    @default(0)
-  p89      Int    @default(0)
-  p90      Int    @default(0)
-  p91      Int    @default(0)
-  p92      Int    @default(0)
-  p93      Int    @default(0)
-  p94      Int    @default(0)
-  p95      Int    @default(0)
-  p96      Int    @default(0)
-  p97      Int    @default(0)
-  p98      Int    @default(0)
-  p99      Int    @default(0)
-  p100     Int    @default(0)
-  p101     Int    @default(0)
-  p102     Int    @default(0)
-  p103     Int    @default(0)
-  p104     Int    @default(0)
-  p105     Int    @default(0)
-  p106     Int    @default(0)
-  p107     Int    @default(0)
-  p108     Int    @default(0)
-  p109     Int    @default(0)
-  p110     Int    @default(0)
-  p111     Int    @default(0)
-  p112     Int    @default(0)
-  p113     Int    @default(0)
-  p114     Int    @default(0)
-  p115     Int    @default(0)
-  p116     Int    @default(0)
+  id         Int      @id @unique @default(autoincrement())
+  imei       String   @unique
+  hostid     String   @unique
+  name       String
+  status     Boolean  @default(false)
+  company    company  @relation(fields: [companyId], references: [id])
+  companyId  Int
+  genModelId Int?
+  genModel   genModel? @relation(fields: [genModelId], references: [id])
+  lastUpdate DateTime @default(now())
+  b0         Boolean  @default(false)
+  b1         Boolean  @default(false)
+  b2         Boolean  @default(false)
+  b3         Boolean  @default(false)
+  b4         Boolean  @default(false)
+  b5         Boolean  @default(false)
+  b6         Boolean  @default(false)
+  b7         Boolean  @default(false)
+  b8         Boolean  @default(false)
+  b9         Boolean  @default(false)
+  b10        Boolean  @default(false)
+  b11        Boolean  @default(false)
+  b12        Boolean  @default(false)
+  b13        Boolean  @default(false)
+  b14        Boolean  @default(false)
+  b15        Boolean  @default(false)
+  b16        Boolean  @default(false)
+  b17        Boolean  @default(false)
+  b18        Boolean  @default(false)
+  b19        Boolean  @default(false)
+  b20        Boolean  @default(false)
+  b21        Boolean  @default(false)
+  b22        Boolean  @default(false)
+  b23        Boolean  @default(false)
+  b24        Boolean  @default(false)
+  b25        Boolean  @default(false)
+  b26        Boolean  @default(false)
+  b27        Boolean  @default(false)
+  b28        Boolean  @default(false)
+  b29        Boolean  @default(false)
+  b30        Boolean  @default(false)
+  b31        Boolean  @default(false)
+  b32        Boolean  @default(false)
+  b33        Boolean  @default(false)
+  b34        Boolean  @default(false)
+  b35        Boolean  @default(false)
+  b36        Boolean  @default(false)
+  b37        Boolean  @default(false)
+  b38        Boolean  @default(false)
+  b39        Boolean  @default(false)
+  b40        Boolean  @default(false)
+  b41        Boolean  @default(false)
+  b42        Boolean  @default(false)
+  b43        Boolean  @default(false)
+  b44        Boolean  @default(false)
+  b45        Boolean  @default(false)
+  b46        Boolean  @default(false)
+  b47        Boolean  @default(false)
+  b48        Boolean  @default(false)
+  b49        Boolean  @default(false)
+  b50        Boolean  @default(false)
+  b51        Boolean  @default(false)
+  b52        Boolean  @default(false)
+  b53        Boolean  @default(false)
+  b54        Boolean  @default(false)
+  b55        Boolean  @default(false)
+  b56        Boolean  @default(false)
+  b57        Boolean  @default(false)
+  b58        Boolean  @default(false)
+  b59        Boolean  @default(false)
+  b60        Boolean  @default(false)
+  b61        Boolean  @default(false)
+  b62        Boolean  @default(false)
+  b63        Boolean  @default(false)
+  b64        Boolean  @default(false)
+  b65        Boolean  @default(false)
+  b66        Boolean  @default(false)
+  b67        Boolean  @default(false)
+  b68        Boolean  @default(false)
+  b69        Boolean  @default(false)
+  b70        Boolean  @default(false)
+  b71        Boolean  @default(false)
+  b72        Boolean  @default(false)
+  b73        Boolean  @default(false)
+  b74        Boolean  @default(false)
+  b75        Boolean  @default(false)
+  b76        Boolean  @default(false)
+  b77        Boolean  @default(false)
+  b78        Boolean  @default(false)
+  b79        Boolean  @default(false)
+  b80        Boolean  @default(false)
+  b81        Boolean  @default(false)
+  b82        Boolean  @default(false)
+  b83        Boolean  @default(false)
+  b84        Boolean  @default(false)
+  b85        Boolean  @default(false)
+  b86        Boolean  @default(false)
+  b87        Boolean  @default(false)
+  b88        Boolean  @default(false)
+  b89        Boolean  @default(false)
+  b90        Boolean  @default(false)
+  b91        Boolean  @default(false)
+  b92        Boolean  @default(false)
+  b93        Boolean  @default(false)
+  b94        Boolean  @default(false)
+  b95        Boolean  @default(false)
+  b96        Boolean  @default(false)
+  b97        Boolean  @default(false)
+  b98        Boolean  @default(false)
+  b99        Boolean  @default(false)
+  b100       Boolean  @default(false)
+  b101       Boolean  @default(false)
+  b102       Boolean  @default(false)
+  b103       Boolean  @default(false)
+  b104       Boolean  @default(false)
+  b105       Boolean  @default(false)
+  b106       Boolean  @default(false)
+  b107       Boolean  @default(false)
+  b108       Boolean  @default(false)
+  b109       Boolean  @default(false)
+  b110       Boolean  @default(false)
+  b111       Boolean  @default(false)
+  b112       Boolean  @default(false)
+  b113       Boolean  @default(false)
+  b114       Boolean  @default(false)
+  b115       Boolean  @default(false)
+  b116       Boolean  @default(false)
+  p0         Int      @default(0) @db.Int
+  p1         Int      @default(0) @db.Int
+  p2         Int      @default(0) @db.Int
+  p3         Int      @default(0) @db.Int
+  p4         Int      @default(0) @db.Int
+  p5         Int      @default(0) @db.Int
+  p6         Int      @default(0) @db.Int
+  p7         Int      @default(0) @db.Int
+  p8         Int      @default(0) @db.Int
+  p9         Int      @default(0) @db.Int
+  p10        Int      @default(0) @db.Int
+  p11        Int      @default(0) @db.Int
+  p12        Int      @default(0) @db.Int
+  p13        Int      @default(0) @db.Int
+  p14        Int      @default(0) @db.Int
+  p15        Int      @default(0) @db.Int
+  p16        Int      @default(0) @db.Int
+  p17        Int      @default(0) @db.Int
+  p18        Int      @default(0) @db.Int
+  p19        Int      @default(0) @db.Int
+  p20        Int      @default(0) @db.Int
+  p21        Int      @default(0) @db.Int
+  p22        Int      @default(0) @db.Int
+  p23        Int      @default(0) @db.Int
+  p24        Int      @default(0) @db.Int
+  p25        Int      @default(0) @db.Int
+  p26        Int      @default(0) @db.Int
+  p27        Int      @default(0) @db.Int
+  p28        Int      @default(0) @db.Int
+  p29        Int      @default(0) @db.Int
+  p30        Int      @default(0) @db.Int
+  p31        Int      @default(0) @db.Int
+  p32        Int      @default(0) @db.Int
+  p33        Int      @default(0) @db.Int
+  p34        Int      @default(0) @db.Int
+  p35        Int      @default(0) @db.Int
+  p36        Int      @default(0) @db.Int
+  p37        Int      @default(0) @db.Int
+  p38        Int      @default(0) @db.Int
+  p39        Int      @default(0) @db.Int
+  p40        Int      @default(0) @db.Int
+  p41        Int      @default(0) @db.Int
+  p42        Int      @default(0) @db.Int
+  p43        Int      @default(0) @db.Int
+  p44        Int      @default(0) @db.Int
+  p45        Int      @default(0) @db.Int
+  p46        Int      @default(0) @db.Int
+  p47        Int      @default(0) @db.Int
+  p48        Int      @default(0) @db.Int
+  p49        Int      @default(0) @db.Int
+  p50        Int      @default(0) @db.Int
+  p51        Int      @default(0) @db.Int
+  p52        Int      @default(0) @db.Int
+  p53        Int      @default(0) @db.Int
+  p54        Int      @default(0) @db.Int
+  p55        Int      @default(0) @db.Int
+  p56        Int      @default(0) @db.Int
+  p57        Int      @default(0) @db.Int
+  p58        Int      @default(0) @db.Int
+  p59        Int      @default(0) @db.Int
+  p60        Int      @default(0) @db.Int
+  p61        Int      @default(0) @db.Int
+  p62        Int      @default(0) @db.Int
+  p63        Int      @default(0) @db.Int
+  p64        Int      @default(0) @db.Int
+  p65        Int      @default(0) @db.Int
+  p66        Int      @default(0) @db.Int
+  p67        Int      @default(0) @db.Int
+  p68        Int      @default(0) @db.Int
+  p69        Int      @default(0) @db.Int
+  p70        Int      @default(0) @db.Int
+  p71        Int      @default(0)
+  p72        Int      @default(0)
+  p73        Int      @default(0)
+  p74        Int      @default(0)
+  p75        Int      @default(0)
+  p76        Int      @default(0)
+  p77        Int      @default(0)
+  p78        Int      @default(0)
+  p79        Int      @default(0)
+  p80        Int      @default(0)
+  p81        Int      @default(0)
+  p82        Int      @default(0)
+  p83        Int      @default(0)
+  p84        Int      @default(0)
+  p85        Int      @default(0)
+  p86        Int      @default(0)
+  p87        Int      @default(0)
+  p88        Int      @default(0)
+  p89        Int      @default(0)
+  p90        Int      @default(0)
+  p91        Int      @default(0)
+  p92        Int      @default(0)
+  p93        Int      @default(0)
+  p94        Int      @default(0)
+  p95        Int      @default(0)
+  p96        Int      @default(0)
+  p97        Int      @default(0)
+  p98        Int      @default(0)
+  p99        Int      @default(0)
+  p100       Int      @default(0)
+  p101       Int      @default(0)
+  p102       Int      @default(0)
+  p103       Int      @default(0)
+  p104       Int      @default(0)
+  p105       Int      @default(0)
+  p106       Int      @default(0)
+  p107       Int      @default(0)
+  p108       Int      @default(0)
+  p109       Int      @default(0)
+  p110       Int      @default(0)
+  p111       Int      @default(0)
+  p112       Int      @default(0)
+  p113       Int      @default(0)
+  p114       Int      @default(0)
+  p115       Int      @default(0)
+  p116       Int      @default(0)
 }

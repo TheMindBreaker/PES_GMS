@@ -23,12 +23,22 @@ try {
             "method":"writeConfig”"
             })
     
-        console.log(com)
         clients[data.hostid].write(com)
+        console.log(com)
     })
     
 } catch(e) {
     logger.error(e)
+}
+
+function handleClientConnect(hostid, socket) {
+    if(clients[hostid]) {
+    } else {
+        console.log("New Client Connecteddd ========= " + socket.remotePort)
+        clients[hostid] = socket
+        relate[socket.remotePort] = hostid
+        genset.online(hostid)
+    }
 }
 
 function handleClientDisconnect(port) {
@@ -48,10 +58,7 @@ server.on("connection", (client) => {
         try {
             const json = JSON.parse(chunk.toString())
             logger.debug(json)
-
-            clients[json.hostid] = client
-            relate[client.remotePort] = json.hostid
-            genset.online(json.hostid)
+            handleClientConnect(json.hostid, client)           
 
 
             switch (json.method) {

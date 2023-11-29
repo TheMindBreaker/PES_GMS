@@ -22,7 +22,7 @@ exports.offline = (val) => {
         data: {
             status: false
         }
-    }).catch(e => logger.error(e))
+    }).then(data => event.emit("gensets", data)).catch(e => logger.error(e))
 }
 
 exports.online = (val) => {
@@ -31,28 +31,26 @@ exports.online = (val) => {
         data: {
             status: true,
         }
-    }).catch(e => logger.error(e))
+    }).then(data => event.emit("gensets", data)).catch(e => logger.error(e))
 }
 
-function parseModbusData(data) {
-    genset01 = {}
-    data.forEach(item => {
-        const address = parseInt(Object.keys(item)[0], 16);
-        const hexValue = Object.values(item)[0];
-        const binaryString = parseInt(hexValue, 16).toString(2).padStart(8, '0');
-        binaryString.split('').reverse().forEach((bit, index) => {
-            genset01[`b${address + index}`] = bit === '1' ? true : false;
-        });
-    });
-    return genset01
-}
 
 function processData(jsonData) {
     // Processing "01" - Read Coils
-    let coilsData = { genset01: {}, genset03: {} };
+    let coilsData = {
+        lastUpdate: new Date()
+    };
     let i = 0
     if (jsonData.params["01"]) {
-        coilsData.genset01 = parseModbusData(jsonData.params["01"])
+
+        jsonData.params["01"].forEach(item => {
+            const address = parseInt(Object.keys(item)[0], 16);
+            const hexValue = Object.values(item)[0];
+            const binaryString = parseInt(hexValue, 16).toString(2).padStart(8, '0');
+            binaryString.split('').reverse().forEach((bit, index) => {
+                coilsData[`b${address + index}`] = bit === '1' ? true : false;
+            });
+        });
     }
 
     // Processing "03" - Read Holding Registers
@@ -60,7 +58,7 @@ function processData(jsonData) {
         jsonData.params["03"].forEach(item => {
             for (const [address, value] of Object.entries(item)) {
                 const registerAddress = `p${parseInt(address, 16)}`;
-                coilsData.genset03[registerAddress] = parseInt(swapBytes(value), 16);
+                coilsData[registerAddress] = parseInt(swapBytes(value), 16);
             }
         });
     }
@@ -70,33 +68,12 @@ function processData(jsonData) {
 exports.reqdatachange = async (json_object, socket) => {
     socket.write(JSON.stringify({ "method": "reqdata ", "message": "OK ", "retcode": "000000" }))
     let pdo = processData(json_object)
-
-    prisma.genset.findFirst({
-        where: {
-            hostid: json_object.hostid
-        }
+    prisma.genset.update({
+        where: {hostid: json_object.hostid},
+        data: pdo,
     }).then(data => {
-        prisma.genset03.update({
-            where: {
-                gensetId: data.id
-            },
-            data: pdo.genset03,
-            include: true
-        }).then(g1 => {
-            prisma.genset01.update({
-                where: {
-                    gensetId: data.id
-                },
-                data: pdo.genset01,
-                include: true
-            }).then(g3 => event.emit("gensets", { hostid: json_object.hostid, data: { genset03: g3, genset01: g1 } })
-            )
-        })
-
-    })
-
-
-
+        event.emit("gensets", data)
+    }).catch(e => console.log(e))
 
 }
 
@@ -113,8 +90,8 @@ module.exports.login = (data, socket) => {
                     "realTime": "UTC",
                     "para_command": "01010000004EBC3E;01030000002D85D7;0103002E000AA5C4",
                     "con_command": "01010000004EBC3E;01030000002D85D7;0103002E000AA5C4",
-                    "online_rate": 3000,
-                    "offline_rate": 3000,
+                    "online_rate": 1000,
+                    "offline_rate": 1000,
                     "data_mode": 1,
                     "moduletype": "HGM6120N-4G",
                     "modulePort": 2,

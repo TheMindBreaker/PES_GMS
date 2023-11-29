@@ -15,17 +15,16 @@ class gensetController {
                     id: parseInt(req.params.id)
                 },
                 include: {
-                    genset03: true,
-                    genset01: true
+                    genModel: true
                 }
-            }).then((data)=> {
+            }).then((data) => {
                 res.status(200).json({
                     status: true,
                     message: "Sucess",
                     data
                 })
             })
-        } catch (e){
+        } catch (e) {
             next(createError(e.statusCode, e.message))
         }
     }
@@ -33,26 +32,28 @@ class gensetController {
     static all = (req, res, next) => {
         try {
             prisma.genset.findMany({
-                include: {
-                    genset03: {
-                        select: {
-                            //Mains
-                            p0: true,
-                            p1: true,
-                            p2: true,
-                            p6: true,
-                            //Gen
-                            p7: true,
-                            p8: true,
-                            p9: true,
-                            p13: true,
-                            // Speed, Batery and Fuel
-                            p23: true,
-                            p21: true,
-                            p24: true,
-                            p34: true
-                        }
-                    },
+                select: {
+                    id: true,
+                    name: true,
+                    hostid: true,
+                    status: true,
+                    //Mains
+                    p0: true,
+                    p1: true,
+                    p2: true,
+                    p6: true,
+                    //Gen
+                    p7: true,
+                    p8: true,
+                    p9: true,
+                    p13: true,
+                    // Speed, Batery and Fuel
+                    p23: true,
+                    p21: true,
+                    p24: true,
+                    p34: true
+
+
                 }
             }).then(data => {
                 res.status(200).json({
@@ -76,26 +77,26 @@ class gensetController {
                 where: {
                     companyId: company
                 },
-                include: {
-                    genset03: {
-                        select: {
-                            //Mains
-                            p0: true,
-                            p1: true,
-                            p2: true,
-                            p6: true,
-                            //Gen
-                            p7: true,
-                            p8: true,
-                            p9: true,
-                            p13: true,
-                            // Speed, Batery and Fuel
-                            p23: true,
-                            p21: true,
-                            p24: true,
-                            p34: true
-                        }
-                    },
+                select: {
+                    id: true,
+                    name: true,
+                    hostid: true,
+                    status: true,
+                    //Mains
+                    p0: true,
+                    p1: true,
+                    p2: true,
+                    p6: true,
+                    //Gen
+                    p7: true,
+                    p8: true,
+                    p9: true,
+                    p13: true,
+                    // Speed, Batery and Fuel
+                    p23: true,
+                    p21: true,
+                    p24: true,
+                    p34: true
                 }
 
             }).then(data => {

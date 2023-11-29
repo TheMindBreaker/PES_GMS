@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { loggers, stream } = require('winston')
+const { loggers } = require('winston')
 const logger = loggers.get('gms')
 const event = require("../utils/eventHandler")
 const express = require('express');
@@ -19,7 +19,6 @@ const io = new Server(serverio, {
 });
 var cors = require('cors')
 
-const dbEventEmitter = require("../utils/eventHandler")
 
 io.on('connection', (socket) => {
     socket.on("command", (data) => {
@@ -59,11 +58,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 
-
-
-dbEventEmitter.on('dataInserted', (data) => {
-    // You can also integrate with any socket logic here if you're using something like socket.io
-});
 
 const route = require('./routes');
 app.use('/', route);
